@@ -24,5 +24,113 @@ namespace Coltoi_Iustin_Lab2
         {
             InitializeComponent();
         }
+        private DoughnutMachine myDoughnutMachine;
+
+        private void frmMain_Loaded(object sender, RoutedEventArgs e)
+        {
+            DoughnutMachine myDoughnutMachine = new DoughnutMachine();
+            myDoughnutMachine.DoughnutComplete += new
+            DoughnutMachine.DoughnutCompleteDelegate(DoughnutCompleteHandler);
+        }
+        private int mRaisedGlazed;
+        private int mRaisedSugar;
+        private int mFilledLemon;
+        private int mFilledChocolate;
+        private int mFilledVanilla;
+
+        private void exitToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+
+        private void glazedToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            glazedToolStripMenuItem.IsChecked = true;
+            sugarToolStripMenuItem.IsChecked = false;
+            myDoughnutMachine.MakeDoughnuts(DoughnutType.Glazed);
+        }
+
+        private void sugarToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            glazedToolStripMenuItem.IsChecked = false;
+            sugarToolStripMenuItem.IsChecked = true;
+            myDoughnutMachine.MakeDoughnuts(DoughnutType.Sugar);
+        }
+        private void lemonToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            lemonToolStripMenuItem.IsChecked = true;
+            chocolateToolStripMenuItem.IsChecked = false;
+            vanillaToolStripMenuItem.IsChecked = false;
+            myDoughnutMachine.MakeDoughnuts(DoughnutType.Lemon);
+        }
+
+        private void chocolateToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            lemonToolStripMenuItem.IsChecked = false;
+            chocolateToolStripMenuItem.IsChecked = true;
+            vanillaToolStripMenuItem.IsChecked = false;
+            myDoughnutMachine.MakeDoughnuts(DoughnutType.Chocolate);
+        }
+
+        private void vanillaToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            lemonToolStripMenuItem.IsChecked = false;
+            chocolateToolStripMenuItem.IsChecked = false;
+            vanillaToolStripMenuItem.IsChecked = true;
+            myDoughnutMachine.MakeDoughnuts(DoughnutType.Vanilla);
+        }
+      
+            private void stopToolStripMenuItem_Click(object sender, RoutedEventArgs e)
+            {
+                glazedToolStripMenuItem.IsChecked = false;
+                sugarToolStripMenuItem.IsChecked = false;
+                lemonToolStripMenuItem.IsChecked = false;
+                chocolateToolStripMenuItem.IsChecked = false;
+                vanillaToolStripMenuItem.IsChecked = false;
+                myDoughnutMachine.Enabled = false;
+
+            }
+        
+        private void DoughnutCompleteHandler()
+        {
+            switch (myDoughnutMachine.Flavor)
+            {
+                case DoughnutType.Glazed:
+                    mRaisedGlazed++;
+                    txtRaisedGlazed.Text = mRaisedGlazed.ToString();
+                    break;
+
+                case DoughnutType.Sugar:
+                    mRaisedSugar++;
+                    txtRaisedSugar.Text = mRaisedSugar.ToString();
+                    break;
+                case DoughnutType.Lemon:
+                    mFilledLemon++;
+                    txtFilledLemon.Text = mFilledLemon.ToString();
+                    break;
+                case DoughnutType.Chocolate:
+                    mFilledChocolate++;
+                    txtFilledChocolate.Text = mFilledChocolate.ToString();
+                    break;
+                case DoughnutType.Vanilla:
+                    mFilledVanilla++;
+                    txtFilledVanilla.Text = mFilledVanilla.ToString();
+                    break;
+            }
+        }
+
+        private void txtQuantity_KeyUp(object sender, KeyEventArgs e)
+        {
+
+        }
+
+        private void txtQuantity_KeyPress(object sender, KeyEventArgs e)
+        {
+            if (!(e.Key >= Key.D0 && e.Key <= Key.D9))
+            {
+                MessageBox.Show("Numai cifre se pot introduce!", "Input Error", MessageBoxButton.OK,
+               MessageBoxImage.Error);
+            }
+        }
     }
 }
